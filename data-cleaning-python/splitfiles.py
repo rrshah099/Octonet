@@ -1,3 +1,8 @@
+"""
+This script should be the first script used for data cleaning/loading.
+Usage: python splitfiles.py path/to/tbop_coding_samples_directory
+"""
+
 import moviepy.editor as mp
 import math
 import os
