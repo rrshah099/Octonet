@@ -51,17 +51,23 @@ def get_begin_end(timepoint):
         end = 60 * int(endtime_split[0]) + int(endtime_split[1])
     return begin, end
 
-def augment_dataframes(spreadsheet_dict, datadir, filter=True):
+def augment_dataframes(spreadsheet_dict, datadir, filter=True, files_to_load=None):
     """
     spreadsheet_dict: dictionary loaded by get_all_spreadsheets
     datadir: directory containing subdirectories 'Codes' and 'Videos'
     filter: boolean. If True, only include rows with Mode 3, 15, or 18.
+    files_to_load: if None, this function will load the audio clips into all dataframes.
+        Otherwise, this should be a list of strings, where each string is a
+        key in spreadsheet_dict. Only those files will have their audio clips loaded.
 
     return: nothing. This function mutates spreadsheet_dict by
     augmenting each dataframe to add the 'Audio Clip' column containing
     20-second audio snippets.
     """
-    keys = list(spreadsheet_dict.keys())
+    if files_to_load is None:
+        keys = list(spreadsheet_dict.keys())
+    else:
+        keys = files_to_load
     for excel_filename in keys:
         df = spreadsheet_dict[excel_filename]
         print('Now augmenting dataframe for', excel_filename)
@@ -112,13 +118,14 @@ def augment_dataframes(spreadsheet_dict, datadir, filter=True):
         # s = lrmodel.score(audios_array, labels_binary)
         # print(s)
 
-def load_and_augment_data(datadir):
+def load_and_augment_data(datadir, files_to_load=None):
     """
     This is the primary function to perform data loading and cleaning.
 
     datadir: dir containing subdirectories 'Videos' and 'Codes', as well as 'SplitVideos'
+    files_to_load: see documentation in augment_dataframes. If this is None, all the data will be loaded.
     return: a spreadsheet_dict object augmented by augment_dataframes
     """
     spreadsheet_dict = csv_combo.get_all_spreadsheets(datadir)
-    augment_dataframes(spreadsheet_dict, datadir)
+    augment_dataframes(spreadsheet_dict, datadir, files_to_load=files_to_load)
     return spreadsheet_dict
