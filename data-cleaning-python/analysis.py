@@ -68,4 +68,9 @@ if __name__ == '__main__':
     #Train the model using the training sets y_pred=clf.predict(X_test)
     clf.fit(X_train,y_train)
     y_pred=clf.predict(X_test)
+    # from sklearn import svm
+    # SVM = svm.LinearSVC()
+    # SVM.fit(X_train,y_train)
+    # y_pred=SVM.predict(X_test)
+
     print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
