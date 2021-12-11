@@ -1,6 +1,13 @@
 import sys
 import numpy as np
 from sklearn.linear_model import LogisticRegression as LR
+
+from sklearn.neighbors import KNeighborsClassifier as KNN
+
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
 from sklearn.decomposition import PCA
 
 from merge import load_and_augment_data
@@ -49,3 +56,15 @@ if __name__ == '__main__':
     s_test = lrmodel.score(reduced_2, labels_binary_2)
     print('Test accuracy:')
     print(s_test)
+
+    neigh = KNN(n_neighbors=10)
+    neigh.fit(reduced_1, labels_binary_1)
+    knn_test = neigh.score(reduced_2, labels_binary_2)
+    print('Test accuracy:')
+    print(knn_test)
+
+    svm = make_pipeline(StandardScaler(), SVC(gamma='auto'))
+    svm.fit(reduced_1, labels_binary_1)
+    svm = svm.score(reduced_2, labels_binary_2)
+    print('Test accuracy:')
+    print(svm)
