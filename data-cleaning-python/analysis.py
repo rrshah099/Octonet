@@ -49,3 +49,20 @@ if __name__ == '__main__':
     s_test = lrmodel.score(reduced_2, labels_binary_2)
     print('Test accuracy:')
     print(s_test)
+
+    X_train= audios_array_1 # Features
+    y_train= labels_binary_1  # Labels
+    X_test = audios_array_2
+    y_test = labels_binary_2
+    from sklearn.ensemble import RandomForestClassifier
+    #Create a Gaussian Classifier
+    clf=RandomForestClassifier(n_estimators=100)
+    #Train the model using the training sets y_pred=clf.predict(X_test)
+    clf.fit(X_train,y_train)
+    y_pred=clf.predict(X_test)
+    print('Test accuracy: ')
+    print(y_pred)
+
+    from sklearn import metrics
+    # Model Accuracy, how often is the classifier correct?
+    print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
